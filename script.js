@@ -142,14 +142,41 @@ function toggleTripDropdown() {
 }
 
 
-
 document.addEventListener('click', (event) => {
   const dropdown = document.getElementById('triptype');
-  const tripContainer = document.querySelector('.triptype');
-  if (dropdown.style.display === 'block' && !tripContainer.contains(event.target)) {
+  const toggleBtn = document.querySelector('[onclick="toggleTripDropdown()"]');
+
+  const clickedOutsideDropdown = !dropdown.contains(event.target);
+  const clickedOutsideButton = !toggleBtn.contains(event.target);
+
+  if (dropdown.classList.contains('show') && clickedOutsideDropdown && clickedOutsideButton) {
     closeTripDropdown();
   }
 });
+function toggleTripDropdown() {
+  const dropdown = document.getElementById('triptype');
+  dropdown.classList.toggle('show');
+}
+
+function closeTripDropdown() {
+  const dropdown = document.getElementById('triptype');
+  dropdown.classList.remove('show');
+}
+
+// Close trip dropdown when clicking outside of it
+document.addEventListener('click', (event) => {
+  const dropdown = document.getElementById('triptype');
+  const toggleButton = document.querySelector('[onclick="toggleTripDropdown()"]');
+
+  if (
+    dropdown.classList.contains('show') &&
+    !dropdown.contains(event.target) &&
+    (!toggleButton || !toggleButton.contains(event.target))
+  ) {
+    closeTripDropdown();
+  }
+});
+
 
 // --- Litepicker Setup ---
 let picker;
