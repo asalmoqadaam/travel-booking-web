@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Booking UI</title>
+  <link rel="stylesheet" href="lib/litepicker.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <h1><i class="fa-solid fa-umbrella-beach"></i> EasyTrip</h1>
+    <p class="subtext"><i class="fas fa-search-location"></i> Plan. Book. Explore.</p>
+  </header>
+
+  <!--sidebar menu-->
+  <div class="sidebar">
+    <button class="sidebarbtn ">☰</button>
+    <!--Offers-->
+    <div class="offers">
+      <button class="offersbtn">Offers</button>
+      <a href="offers-page.html"></a>
+    </div>
+
+    <!--Help Section-->
+    <div class="help">
+      <button class="helpbtn">Help</button>
+      <a href="help-page.html"></a>
+    </div>
+  </div>
+
+  <!-- Input Components -->
+  <div class="main-content">
+    <div class="top-controls">
+      <!-- Passenger Dropdown -->
+      <div class="passengers-dropdown">
+        <button class="top-btn" onclick="toggleDropdown()">
+          Passengers: <span id="passenger-count"></span>
+          <i class="fas fa-angle-double-down"></i>
+        </button>
+        <div id="passenger-content" class="passenger-content">
+          <div class="row">
+            <span>Adult (16+)</span>
+            <div class="counter">
+              <button onclick="decrease('adult')">−</button>
+              <span id="adult-count">1</span>
+              <button onclick="increase('adult')">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span>Youth (12–15) </span>
+            <div class="counter">
+              <button onclick="decrease('youth')">−</button>
+              <span id="youth-count">0</span>
+              <button onclick="increase('youth')">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span>Child (2–11)</span>
+            <div class="counter">
+              <button onclick="decrease('child')">−</button>
+              <span id="child-count">0</span>
+              <button onclick="increase('child')">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span>Infant</span>
+            <div class="counter">
+              <button onclick="decrease('infant')">−</button>
+              <span id="infant-count">0</span>
+              <button onclick="increase('infant')">+</button>
+            </div>
+          </div>
+          <button id="close-btn" onclick="closeDropdown()">Close</button>
+        </div>
+      </div> <!-- END of passengers-dropdown -->
+
+       <!--trip type-->
+      <div class="triptype">
+        <button class="top-btn" onclick="toggleTripDropdown()" id="trip-button">
+          Round-trip <i class="fas fa-angle-double-down"></i>
+        </button>
+        <div id="triptype">
+          <div class="trip-option" onclick="selectTrip('One-way')">
+            <span class="trip-label">One-way</span>
+            <span class="circle" id="circle-oneway"></span>
+          </div>
+          <div class="trip-option selected-option" onclick="selectTrip('Round-trip')">
+            <span class="trip-label">Round-trip</span>
+            <span class="circle selected" id="circle-roundtrip"></span>
+          </div>
+          <button id="close-btn" onclick="closeTripDropdown()">Close</button>
+        </div>
+      </div>
+      
+      <!--transportation type-->
+      <div class="transportation-type">
+        <button class="top-btn" onclick="toggleTransportDropdown()">Transportation Type
+          <i class="fas fa-angle-double-down"></i>
+        </button>
+        <div class="transportation-dropdown" id="transport-options">
+          <ul>
+            <li onclick="selectTransportation('Cars')">
+
+              <span class="transportation-label"> Cars <i class="fas fa-car"></i></span>
+              <span class="circle" id="circle-cars"></span>
+            </li>
+            <li onclick="selectTransportation('Vans')">
+              <span class="transportation-label"> Vans <i class="fas fa-shuttle-van"></i></span>
+              <span class="circle" id="circle-vans"></span>
+            </li>
+            <li onclick="selectTransportation('Motorbikes')">
+              <span class="transportation-label"></i>Motorbikes <i class="fas fa-motorcycle"></i></span>
+              <span class="circle" id="circle-motorbikes"></span>
+            </li>
+            <li onclick="selectTransportation('Trains')">
+              <span class="transportation-label"> Trains <i class="fas fa-train"></i></span>
+              <span class="circle" id="circle-trains"></span>
+            </li>
+            <li onclick="selectTransportation('Buses')">
+              <span class="transportation-label"> Buses <i class="fas fa-bus"></i> </span>
+              <span class="circle" id="circle-buses"></span>
+            </li>
+          </ul>
+          <button id="close-transport-btn" class="close-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <form>
+      <!-- LOCATION GROUP -->
+      <div class="location-group">
+        <div class="input-map-row">
+          <!-- DEPARTURE -->
+          <div class="input-with-map">
+            <div class="input-map-inline">
+              <div class="input-field-wrapper">
+                <input type="text" id="departure" placeholder="Departing from" />
+                <div id="departure-error" class="error-msg">Please enter a departure city.</div>
+              </div>
+              <button type="button" onclick="enableMapInput('departure')">📍 Use map</button>
+            </div>
+            <div id="map-departure" class="map" style="display: none;"></div>
+          </div>
+
+          <!-- DESTINATION -->
+          <div class="input-with-map">
+            <div class="input-map-inline">
+              <div class="input-field-wrapper">
+                <input type="text" id="destination" placeholder="Arriving to" />
+                <div id="destination-error" class="error-msg">Please enter a destination city.</div>
+              </div>
+              <button type="button" onclick="enableMapInput('destination')">📍 Use map</button>
+            </div>
+            <div id="map-destination" class="map" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Travel Dates -->
+      <div class="content-group">
+        <input type="text" id="Departure-date" name="Departure-date" placeholder="Departure date">
+        <input type="text" id="Return-date" name="Return-date" placeholder="Return date">
+        <div id="dates-error" class="error-msg"></div>
+      </div>
+
+      <!-- Search button -->
+      <button type="submit" id="search-btn">Search</button>
+    </form>
+  </div> <!-- END of main-content -->
+  <!-- Summary Card -->
+  <div id="summary-card">
+    <div id="summary-details"></div>
+  </div>
+  <!-- Confirmation Card -->
+  <div id="confirmation-card" style="display: none;">
+    <div class="confirmation-box">
+      <h2>Confirm Your Trip</h2>
+      <p>Are you sure you want to proceed with booking?</p>
+      <div class="confirmation-actions">
+        <button id="confirm-back-btn">← Back</button>
+        <button id="confirm-final-btn">Confirm</button>
+        <div id="success-message" class="success-popup">Your trip has been submitted!</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    fetch('/config')
+      .then(res => res.json())
+      .then(data => {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${data.key}&libraries=places&callback=initAutocomplete`;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      });
+  </script>  
+  <script src="lib/bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js" defer></script>
+</body>
+
+</html>
